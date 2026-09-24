@@ -1,0 +1,11 @@
+---
+description: Prefer condensed command output (RTK) when available; avoid noisy full logs.
+alwaysApply: false
+---
+
+# Command output (RTK)
+
+If RTK (Rust Token Killer) is installed on the machine, Shell commands may be wrapped to condense output. Treat condensed results as complete.
+
+- Prefer normal commands; only re-run unfiltered when output is unusable.
+- For full Playwright logs when needed: `RTK_DISABLED=1 npx playwright test ...`

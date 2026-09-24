@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "ignoreDeprecations": "5.0",
+    "types": ["node"],
+    "paths": {
+      "@config/*": ["./config/*"],
+      "@pages/*": ["./pages/*"],
+      "@flows/*": ["./flows/*"],
+      "@fixtures/*": ["./fixtures/*"],
+      "@utils/*": ["./utilities/*"],
+      "@setup/*": ["./setup/*"]
+    }
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "storage", "test-results", "playwright-report"]
+}

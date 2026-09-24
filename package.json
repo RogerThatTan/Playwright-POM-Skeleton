@@ -1,0 +1,23 @@
+{
+  "name": "playwright-pom-skeleton",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Reusable Playwright POM four-layer skeleton (dummy example files)",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "npx playwright test --project=chromium --workers=1",
+    "test:smoke": "npx playwright test tests/loginTest/login.spec.ts --project=chromium --workers=1",
+    "test:example": "npx playwright test tests/exampleFeatureTest/exampleFeature.spec.ts --project=chromium --workers=1",
+    "locator:heal-stub": "npx tsx scripts/locator-heal/heal-runner.stub.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.1",
+    "@types/node": "^22.0.0",
+    "dotenv": "^16.0.0",
+    "tsx": "^4.22.4",
+    "typescript": "^5.7.0"
+  }
+}

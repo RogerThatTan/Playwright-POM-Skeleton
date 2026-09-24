@@ -1,0 +1,12 @@
+---
+description: Playwright MCP / browser automation token budget. Read before opening a browser MCP.
+alwaysApply: false
+---
+
+# Playwright MCP token budget
+
+Do **not** open Playwright MCP (`user-playwright`) by default.
+
+- Prefer existing locators, call sites, traces, and heal artifacts before any browser MCP call.
+- When live DOM evidence is required to write or fix a locator under `utilities/locators/`, use MCP within a hard budget: max **2** attempts on the same blocked step, then stop and report.
+- Never invent locator strings from memory; never put raw selectors in page objects, flows, or specs.

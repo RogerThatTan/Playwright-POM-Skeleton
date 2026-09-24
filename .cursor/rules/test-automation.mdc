@@ -1,0 +1,64 @@
+---
+description: Test automation conventions — four-layer POM (locators → pages → flows → specs).
+alwaysApply: true
+---
+
+# Test Automation Conventions
+
+## Architecture — four-layer separation, never collapse it
+
+- **`pages/*.page.ts`** — POM classes only. Hold locator references (as `readonly` properties set from locator factory functions) and expose action/query methods. NEVER put raw selector strings directly in a page class — they must come from `utilities/locators/`.
+- **`utilities/locators/**/*.locators.ts`** — ALL raw selector strings live here as exported factory functions (e.g. `getSaveButton(page)`). `utilities/locators/index.ts` is a barrel re-export — if a new locator file is added, it must be re-exported there too.
+- **`flows/**/*.flow.ts`** — business-logic orchestration. Flow functions instantiate the POM classes they need (page objects are NOT stored in fixtures) and call their methods in sequence. This is where multi-step logic belongs, not in spec files.
+- **`tests/**/*.spec.ts`** — THIN wrappers only. A spec file's test body should be a single `await someFlowFunction(page, testInfo)` call, inside a `test.describe` block with a `test.beforeEach` for login/setup.
+
+## Method naming prefixes
+
+| Prefix | Meaning |
+|---|---|
+| `fill*` | Fill an input/group |
+| `click*` | Click an element |
+| `ensure*` | Idempotent state guard + action |
+| `wait*` / `waitFor*` | Wait for a condition |
+| `get*` | Retrieve a value asynchronously |
+| `is*` | Boolean state check |
+| `collect*` | Scrape and return a data object |
+| `verify*` | Post-action assertion, returns boolean |
+
+## Fixtures
+
+- Use `fixtures/test.fixture.ts` (imported via `tests/test.ts`) as the default fixture.
+- Only use `fixtures/multi-user.fixture.ts` when a test needs a second storage state.
+
+## Spec file structure
+
+```typescript
+import { test } from '../test';
+import { LoginPage } from '../../pages/loginPage/login.page';
+
+test.describe('<feature>', () => {
+  test.beforeEach(async ({ page }) => {
+    await new LoginPage(page).loginAsExampleUser();
+  });
+
+  test('<case name>', async ({ page }, testInfo) => {
+    await someFlowFunction(page, testInfo);
+  });
+});
+```
+
+## Naming conventions
+
+| Type | Convention |
+|---|---|
+| Page objects | `camelCase.page.ts` |
+| Spec files | `camelCase.spec.ts` |
+| Flow files | `camelCase.flow.ts` |
+| Locator files | `camelCase.locators.ts` |
+| Helper files | `camelCase.helper.ts` |
+| Auth setup | `kebab-case.auth.setup.ts` |
+| Fixtures | `kebab-case.fixture.ts` |
+
+## Never touch unless asked
+
+Do not modify `utilities/locatorHeal/`, `utilities/locatorFailure/`, or `scripts/locator-heal/` unless explicitly requested — those belong to the optional self-healing system.
